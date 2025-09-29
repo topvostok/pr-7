@@ -1,0 +1,79 @@
+﻿<Window x:Class="pr7_Peshin.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:pr7_Peshin"
+        mc:Ignorable="d"
+        Title="Геометрические фигуры - Наследование" Height="600" Width="900">
+    <Grid Background="LightBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <TextBlock Grid.Row="0" Text="Демонстрация наследования: Геометрические фигуры" 
+                   FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" 
+                   Margin="10" Foreground="DarkBlue"/>
+
+        <!-- Основное содержимое -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Панель управления -->
+            <StackPanel Grid.Column="0" Margin="10" Background="White" >
+                <GroupBox Header="Создание окружности" Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock Text="Центр X:"/>
+                        <TextBox x:Name="circleX" Text="100" Margin="0,2,0,5"/>
+                        <TextBlock Text="Центр Y:"/>
+                        <TextBox x:Name="circleY" Text="100" Margin="0,2,0,5"/>
+                        <TextBlock Text="Радиус:"/>
+                        <TextBox x:Name="circleRadius" Text="50" Margin="0,2,0,10"/>
+                        <Button x:Name="btnCreateCircle" Content="Создать окружность" 
+                                Click="BtnCreateCircle_Click" Background="LightGreen"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="Создание треугольника">
+                    <StackPanel>
+                        <TextBlock Text="Центр X:"/>
+                        <TextBox x:Name="triangleX" Text="300" Margin="0,2,0,5"/>
+                        <TextBlock Text="Центр Y:"/>
+                        <TextBox x:Name="triangleY" Text="200" Margin="0,2,0,5"/>
+                        <TextBlock Text="Сторона A:"/>
+                        <TextBox x:Name="sideA" Text="80" Margin="0,2,0,5"/>
+                        <TextBlock Text="Сторона B:"/>
+                        <TextBox x:Name="sideB" Text="80" Margin="0,2,0,5"/>
+                        <TextBlock Text="Сторона C:"/>
+                        <TextBox x:Name="sideC" Text="80" Margin="0,2,0,10"/>
+                        <Button x:Name="btnCreateTriangle" Content="Создать треугольник" 
+                                Click="BtnCreateTriangle_Click" Background="LightCoral"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <Button x:Name="btnClear" Content="Очистить" Click="BtnClear_Click" 
+                        Margin="0,10,0,0" Background="LightGray"/>
+            </StackPanel>
+
+            <!-- Область отображения -->
+            <Border Grid.Column="1" Margin="10" Background="White" BorderBrush="Gray" BorderThickness="1">
+                <Canvas x:Name="drawingCanvas" Background="WhiteSmoke">
+                    <TextBlock x:Name="infoText" Text="Создайте фигуры для отображения..." 
+                              HorizontalAlignment="Center" VerticalAlignment="Center" 
+                              FontSize="16" Foreground="Gray"/>
+                </Canvas>
+            </Border>
+        </Grid>
+
+        <!-- Информационная панель -->
+        <Border Grid.Row="2" Background="LightYellow" BorderBrush="DarkGoldenrod" BorderThickness="1">
+            <TextBlock x:Name="statusText" Text="Готов к работе..." Margin="10" FontSize="12"/>
+        </Border>
+    </Grid>
+</Window>
