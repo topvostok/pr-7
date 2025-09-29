@@ -12,6 +12,11 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Геометрические фигуры - Наследование" 
+                   FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" 
+                   Margin="10" Foreground="DarkBlue"/>
+
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="300"/>
@@ -21,11 +26,11 @@
                 <GroupBox Header="Создание окружности" Margin="0,0,0,10">
                     <StackPanel>
                         <TextBlock Text="Центр X:"/>
-                        <TextBox x:Name="circleX" Text="100" Margin="0,2,0,5"/>
+                        <TextBox x:Name="circleX" Text="150" Margin="0,2,0,5"/>
                         <TextBlock Text="Центр Y:"/>
-                        <TextBox x:Name="circleY" Text="100" Margin="0,2,0,5"/>
-                        <TextBlock Text="Радиус:"/>
-                        <TextBox x:Name="circleRadius" Text="50" Margin="0,2,0,10"/>
+                        <TextBox x:Name="circleY" Text="150" Margin="0,2,0,5"/>
+                        <TextBlock Text="Диаметр:"/>
+                        <TextBox x:Name="circleDiameter" Text="100" Margin="0,2,0,10"/>
                         <Button x:Name="btnCreateCircle" Content="Создать окружность" 
                                 Click="BtnCreateCircle_Click" Background="LightGreen"/>
                     </StackPanel>
@@ -34,7 +39,7 @@
                 <GroupBox Header="Создание треугольника">
                     <StackPanel>
                         <TextBlock Text="Центр X:"/>
-                        <TextBox x:Name="triangleX" Text="300" Margin="0,2,0,5"/>
+                        <TextBox x:Name="triangleX" Text="400" Margin="0,2,0,5"/>
                         <TextBlock Text="Центр Y:"/>
                         <TextBox x:Name="triangleY" Text="200" Margin="0,2,0,5"/>
                         <TextBlock Text="Сторона A:"/>

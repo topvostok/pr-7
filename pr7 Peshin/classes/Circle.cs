@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -6,21 +7,32 @@ namespace pr7_Peshin
 {
     public class Circle : GeometricFigure
     {
-        public double Radius { get; set; }
-        public Circle(double centerX, double centerY, double radius)
+        // Поле диаметра
+        private double diameter;
+
+        public double Diameter
+        {
+            get => diameter;
+            set => diameter = value > 0 ? value : 1;
+        }
+
+        public double Radius => Diameter / 2;
+
+        public Circle(double centerX, double centerY, double diameter)
             : base(centerX, centerY)
         {
-            Radius = radius;
+            Diameter = diameter;
             FillColor = Brushes.LightGreen;
             StrokeColor = Brushes.DarkGreen;
+            StrokeThickness = 2;
         }
 
         public override void Draw(Canvas canvas)
         {
             Ellipse ellipse = new Ellipse
             {
-                Width = Radius * 2,
-                Height = Radius * 2,
+                Width = Diameter,
+                Height = Diameter,
                 Fill = FillColor,
                 Stroke = StrokeColor,
                 StrokeThickness = StrokeThickness
@@ -35,7 +47,14 @@ namespace pr7_Peshin
 
         public override string GetInfo()
         {
-            return $"Окружность: Центр({CenterX}, {CenterY}), Радиус={Radius}";
+            double area = Math.PI * Radius * Radius;
+            double circumference = 2 * Math.PI * Radius;
+
+            return $"Окружность:\nЦентр({CenterX:F1}, {CenterY:F1})\n" +
+                   $"Диаметр={Diameter:F1}\n" +
+                   $"Радиус={Radius:F1}\n" +
+                   $"Площадь={area:F1}\n" +
+                   $"Длина окружности={circumference:F1}";
         }
     }
 }

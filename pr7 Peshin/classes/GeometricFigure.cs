@@ -6,8 +6,22 @@ namespace pr7_Peshin
 {
     public abstract class GeometricFigure
     {
-        public double CenterX { get; set; }
-        public double CenterY { get; set; }
+        // Поля координат центра фигуры
+        private double centerX;
+        private double centerY;
+
+        public double CenterX
+        {
+            get => centerX;
+            set => centerX = value >= 0 ? value : 0;
+        }
+
+        public double CenterY
+        {
+            get => centerY;
+            set => centerY = value >= 0 ? value : 0;
+        }
+
         public Brush FillColor { get; set; } = Brushes.LightBlue;
         public Brush StrokeColor { get; set; } = Brushes.DarkBlue;
         public double StrokeThickness { get; set; } = 2;
@@ -25,14 +39,14 @@ namespace pr7_Peshin
         {
             Ellipse centerPoint = new Ellipse
             {
-                Width = 4,
-                Height = 4,
+                Width = 6,
+                Height = 6,
                 Fill = Brushes.Red,
                 Stroke = Brushes.DarkRed,
                 StrokeThickness = 1
             };
-            Canvas.SetLeft(centerPoint, CenterX - 2);
-            Canvas.SetTop(centerPoint, CenterY - 2);
+            Canvas.SetLeft(centerPoint, CenterX - 3);
+            Canvas.SetTop(centerPoint, CenterY - 3);
             canvas.Children.Add(centerPoint);
         }
     }
