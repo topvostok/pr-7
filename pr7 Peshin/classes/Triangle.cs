@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows;
 
 namespace pr7_Peshin
 {
@@ -24,30 +25,71 @@ namespace pr7_Peshin
 
         public override void Draw(Canvas canvas)
         {
-            // Простой равносторонний треугольник для демонстрации
-            double height = SideA * Math.Sqrt(3) / 2;
+            // Проверяем, могут ли стороны образовать треугольник
+            if (!IsValidTriangle())
+            {
+                // Если треугольник невозможен, показываем сообщение об ошибке
+                TextBlock errorText = new TextBlock
+                {
+                    Text = "Невозможно построить треугольник с такими сторонами",
+                    Foreground = Brushes.Red,
+                    Background = Brushes.White,
+                    FontSize = 12
+                };
+                Canvas.SetLeft(errorText, CenterX);
+                Canvas.SetTop(errorText, CenterY);
+                canvas.Children.Add(errorText);
+                return;
+            }
 
-            System.Windows.Point p1 = new System.Windows.Point(CenterX, CenterY - height / 2);
-            System.Windows.Point p2 = new System.Windows.Point(CenterX - SideA / 2, CenterY + height / 2);
-            System.Windows.Point p3 = new System.Windows.Point(CenterX + SideA / 2, CenterY + height / 2);
+            // Вычисляем координаты вершин треугольника
+            Point[] vertices = CalculateTriangleVertices();
 
             Polygon polygon = new Polygon
             {
-                Points = new PointCollection { p1, p2, p3 },
+                Points = new PointCollection { vertices[0], vertices[1], vertices[2] },
                 Fill = FillColor,
                 Stroke = StrokeColor,
                 StrokeThickness = StrokeThickness
             };
-
             canvas.Children.Add(polygon);
-
-            // Добавляем точку центра
             DrawCenterPoint(canvas);
+        }
+
+        private bool IsValidTriangle()
+        {
+            // Проверяем неравенство треугольника
+            return SideA + SideB > SideC &&
+                   SideA + SideC > SideB &&
+                   SideB + SideC > SideA &&
+                   SideA > 0 && SideB > 0 && SideC > 0;
+        }
+
+        private Point[] CalculateTriangleVertices()
+        {
+            Point p1 = new Point(CenterX - SideA / 2, CenterY);
+            Point p2 = new Point(CenterX + SideA / 2, CenterY);
+
+            double angle = Math.Acos((SideB * SideB + SideA * SideA - SideC * SideC) / (2 * SideB * SideA));
+            double height = SideB * Math.Sin(angle);
+
+            Point p3 = new Point(CenterX - SideA / 2 + SideB * Math.Cos(angle), CenterY - height);
+
+            return new Point[] { p1, p2, p3 };
         }
 
         public override string GetInfo()
         {
-            return $"Треугольник: Центр({CenterX}, {CenterY}), Стороны={SideA}, {SideB}, {SideC}, Периметр={SideA + SideB + SideC}";
+            double perimeter = SideA + SideB + SideC;
+            double semiPerimeter = perimeter / 2;
+            double area = Math.Sqrt(semiPerimeter *
+                                   (semiPerimeter - SideA) *
+                                   (semiPerimeter - SideB) *
+                                   (semiPerimeter - SideC));
+
+            return $"Треугольник: Центр({CenterX:F1}, {CenterY:F1}), " +
+                   $"Стороны={SideA:F1}, {SideB:F1}, {SideC:F1}, " +
+                   $"Периметр={perimeter:F1}, Площадь={area:F1}";
         }
     }
 }

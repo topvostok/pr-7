@@ -1,44 +1,94 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace pr7_Peshin
 {
-    public abstract class GeometricFigure
+    public partial class MainWindow : Window
     {
-        public double CenterX { get; set; }
-        public double CenterY { get; set; }
-        public Brush FillColor { get; set; }
-        public Brush StrokeColor { get; set; }
-        public double StrokeThickness { get; set; }
+        private List<GeometricFigure> figures = new List<GeometricFigure>();
 
-        // Конструктор базового класса
-        public GeometricFigure(double centerX, double centerY)
+        public MainWindow()
         {
-            CenterX = centerX;
-            CenterY = centerY;
-            FillColor = Brushes.LightBlue;
-            StrokeColor = Brushes.DarkBlue;
-            StrokeThickness = 2;
+            InitializeComponent();
+            UpdateStatus("Приложение запущено. Создайте геометрические фигуры.");
+        }
+        private void BtnCreateCircle_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                double x = double.Parse(circleX.Text);
+                double y = double.Parse(circleY.Text);
+                double radius = double.Parse(circleRadius.Text);
+
+                Circle circle = new Circle(x, y, radius);
+                figures.Add(circle);
+                RedrawCanvas();
+                UpdateStatus($"Создана окружность: Центр({x}, {y}), Радиус={radius}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при создании окружности: {ex.Message}", "Ошибка",
+                MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
-        public abstract void Draw(Canvas canvas);
-        public abstract string GetInfo();
-
-        protected void DrawCenterPoint(Canvas canvas)
+        private void BtnCreateTriangle_Click(object sender, RoutedEventArgs e)
         {
-            Ellipse centerPoint = new Ellipse
+            try
             {
-                Width = 6,
-                Height = 6,
-                Fill = Brushes.Red,
-                Stroke = Brushes.DarkRed,
-                StrokeThickness = 1
-            };
+                double x = double.Parse(triangleX.Text);
+                double y = double.Parse(triangleY.Text);
+                double a = double.Parse(sideA.Text);
+                double b = double.Parse(sideB.Text);
+                double c = double.Parse(sideC.Text);
 
-            Canvas.SetLeft(centerPoint, CenterX - 3);
-            Canvas.SetTop(centerPoint, CenterY - 3);
-            canvas.Children.Add(centerPoint);
+                Triangle triangle = new Triangle(x, y, a, b, c);
+                figures.Add(triangle);
+                RedrawCanvas();
+                UpdateStatus($"Создан треугольник: Центр({x}, {y}), Стороны={a}, {b}, {c}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при создании треугольника: {ex.Message}", "Ошибка",
+              MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void BtnClear_Click(object sender, RoutedEventArgs e)
+        {
+            figures.Clear();
+            RedrawCanvas();
+            UpdateStatus("Все фигуры удалены");
+        }
+        private void RedrawCanvas()
+        {
+            drawingCanvas.Children.Clear();
+            infoText.Visibility = figures.Count == 0 ? Visibility.Visible : Visibility.Hidden;
+
+            foreach (var figure in figures)
+            {
+                figure.Draw(drawingCanvas);
+                TextBlock info = new TextBlock
+                {
+                    Text = figure.GetInfo(),
+                    FontSize = 10,
+                    Foreground = Brushes.DarkBlue,
+                    Background = Brushes.White,
+                    Padding = new Thickness(3)
+                };
+
+                Canvas.SetLeft(info, figure.CenterX + 10);
+                Canvas.SetTop(info, figure.CenterY + 10);
+                drawingCanvas.Children.Add(info);
+            }
+        }
+
+        private void UpdateStatus(string message)
+        {
+            statusText.Text = $"[{DateTime.Now:HH:mm:ss}] {message}";
         }
     }
 }

@@ -7,10 +7,8 @@ namespace pr7_Peshin
     public class Circle : GeometricFigure
     {
         public double Radius { get; set; }
-
-        // Конструктор с вызовом базового конструктора
         public Circle(double centerX, double centerY, double radius)
-            : base(centerX, centerY) // Вызов конструктора базового класса
+            : base(centerX, centerY)
         {
             Radius = radius;
             FillColor = Brushes.LightGreen;
@@ -32,7 +30,6 @@ namespace pr7_Peshin
             Canvas.SetTop(ellipse, CenterY - Radius);
             canvas.Children.Add(ellipse);
 
-            // Добавляем точку центра
             DrawCenterPoint(canvas);
         }
 
